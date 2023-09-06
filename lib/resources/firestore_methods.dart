@@ -41,17 +41,58 @@ class FireStoremethods {
     return res;
   }
 
-  Future<void> likePost(String postId,String? uid, List likes) async{
-    try{
-      if(likes.contains(uid)){
+  Future<void> likePost(String postId, String? uid, List likes) async {
+    try {
+      if (likes.contains(uid)) {
         await _firestore.collection('posts').doc(postId).update({
           'likes': FieldValue.arrayRemove([uid]),
         });
-      }else {
+      } else {
         await _firestore.collection('posts').doc(postId).update({
           'likes': FieldValue.arrayUnion([uid]),
         });
       }
-    }catch(e){}
+    } catch (e) {}
+  }
+
+  Future<String> postComment(String postId, String text, String? uid,
+      String? name, String? profilepic) async {
+    String res = 'Some error occured';
+    try {
+      if (text.isNotEmpty) {
+        String commentId = const Uuid().v1();
+        _firestore
+            .collection('posts')
+            .doc(postId)
+            .collection('comments')
+            .doc(commentId)
+            .set({
+          'profPic': profilepic,
+          'name': name,
+          'comment': text,
+          'uid': uid,
+          'commentId': commentId,
+          'dateCommented': DateTime.now(),
+        });
+        res = 'success';
+      } else {
+        res = 'Cannot be empty';
+        return res;
+      }
+    } catch (e) {
+      res = e.toString();
+    }
+    return res;
+  }
+
+  Future<String> deletePost(String postId) async {
+    String res = 'Some error Occured';
+    try {
+      await _firestore.collection('posts').doc(postId).delete();
+      res = 'Deleted';
+    }catch(e){
+      res = e.toString();
+    }
+    return res;
   }
 }
