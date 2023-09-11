@@ -1,4 +1,4 @@
-import 'dart:typed_data';
+import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
@@ -53,7 +53,9 @@ class FireStoremethods {
           'likes': FieldValue.arrayUnion([uid]),
         });
       }
-    } catch (e) {}
+    } catch (e) {
+      log(e.toString());
+    }
   }
 
   Future<String> postComment(String postId, String text, String? uid,
@@ -91,7 +93,7 @@ class FireStoremethods {
     try {
       await _firestore.collection('posts').doc(postId).delete();
       res = 'Deleted';
-    }catch(e){
+    } catch (e) {
       res = e.toString();
     }
     return res;

@@ -7,6 +7,7 @@ import 'package:instagram_flutter/resources/auth_method.dart';
 import 'package:instagram_flutter/responsive/mobile_screen_layout.dart';
 import 'package:instagram_flutter/responsive/responsive_layout_screen.dart';
 import 'package:instagram_flutter/responsive/web_screen_layout.dart';
+import 'package:instagram_flutter/screens/login_screen.dart';
 import 'package:instagram_flutter/utils/colors.dart';
 import 'package:instagram_flutter/utils/utils.dart';
 import 'package:instagram_flutter/widgets/text_field_input.dart';
@@ -75,7 +76,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   void navigateToLoginIn() {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => const SignUpScreen(),
+        builder: (context) => const LoginScreen(),
       ),
     );
   }
